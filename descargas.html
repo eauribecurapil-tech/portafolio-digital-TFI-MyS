@@ -1,0 +1,851 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Descargas · TFI Adopción de Rust vs C++</title>
+    <meta
+      name="description"
+      content="Descarga el paquete completo del TFI: código fuente Python, datasets en CSV/Excel, figuras PNG y el informe PDF de 29 páginas."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/shared.css" />
+    <style>
+      .page-hero {
+        padding: 80px 0 56px;
+      }
+      .page-hero h1 {
+        font-family: "Fraunces", serif;
+        font-weight: 700;
+        font-size: clamp(40px, 6vw, 72px);
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+        margin: 16px 0 24px;
+        color: var(--ink);
+      }
+      .page-hero .lead {
+        font-size: 19px;
+        color: var(--ink-2);
+        line-height: 1.55;
+        max-width: 64ch;
+      }
+
+      /* ============= MAIN DOWNLOAD ============= */
+      .download-main {
+        background: var(--paper);
+        border: 1px solid var(--rule);
+        padding: 48px;
+        margin: 0 0 48px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        align-items: center;
+      }
+      .download-main-left h2 {
+        font-family: "Fraunces", serif;
+        font-size: 36px;
+        font-weight: 500;
+        line-height: 1.1;
+        margin-bottom: 16px;
+        color: var(--ink);
+      }
+      .download-main-left p {
+        font-size: 16px;
+        color: var(--ink-2);
+        line-height: 1.55;
+        margin-bottom: 24px;
+      }
+      .download-meta {
+        display: flex;
+        gap: 24px;
+        margin-bottom: 28px;
+        flex-wrap: wrap;
+      }
+      .download-meta-item {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        color: var(--ink-3);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .download-meta-item strong {
+        color: var(--ink);
+        font-weight: 500;
+        margin-right: 8px;
+      }
+      .download-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        background: var(--rust);
+        color: white;
+        padding: 18px 32px;
+        font-size: 16px;
+        font-weight: 500;
+        border-radius: 6px;
+        transition: all 0.15s ease;
+        text-decoration: none;
+        box-shadow: 0 2px 0 var(--rust-deep);
+      }
+      .download-btn:hover {
+        background: var(--rust-deep);
+        color: white;
+        text-decoration: none;
+        transform: translateY(1px);
+        box-shadow: 0 1px 0 var(--rust-deep);
+      }
+      .download-btn svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      /* ZIP tree visualization */
+      .zip-tree {
+        background: var(--cream-soft);
+        border: 1px solid var(--rule);
+        padding: 28px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 13px;
+        line-height: 1.8;
+        color: var(--ink);
+        white-space: pre;
+        overflow-x: auto;
+      }
+      .zip-tree .tree-folder {
+        color: var(--navy);
+        font-weight: 500;
+      }
+      .zip-tree .tree-file {
+        color: var(--ink-2);
+      }
+      .zip-tree .tree-pdf {
+        color: var(--rust);
+        font-weight: 500;
+      }
+      .zip-tree .tree-comment {
+        color: var(--ink-3);
+        font-style: italic;
+      }
+
+      /* ============= INDIVIDUAL DOWNLOADS ============= */
+      .downloads-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+      .download-item {
+        background: var(--paper);
+        border: 1px solid var(--rule);
+        padding: 24px 28px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        text-decoration: none;
+        color: inherit;
+        transition: all 0.15s ease;
+      }
+      .download-item:hover {
+        border-color: var(--ink-3);
+        box-shadow: var(--shadow-md);
+        text-decoration: none;
+        color: inherit;
+      }
+      .download-item-icon {
+        width: 42px;
+        height: 42px;
+        flex-shrink: 0;
+        background: var(--cream-deep);
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--rust);
+      }
+      .download-item-icon svg {
+        width: 22px;
+        height: 22px;
+      }
+      .download-item-body {
+        flex-grow: 1;
+        min-width: 0;
+      }
+      .download-item-title {
+        font-family: "Fraunces", serif;
+        font-size: 18px;
+        font-weight: 500;
+        color: var(--ink);
+        margin-bottom: 4px;
+        line-height: 1.25;
+      }
+      .download-item-meta {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        color: var(--ink-3);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .download-item-arrow {
+        color: var(--ink-3);
+        flex-shrink: 0;
+        transition: transform 0.15s ease;
+      }
+      .download-item:hover .download-item-arrow {
+        transform: translateX(3px);
+        color: var(--rust);
+      }
+
+      /* ============= INSTRUCTIONS ============= */
+      .instructions {
+        background: var(--paper);
+        border: 1px solid var(--rule);
+        padding: 36px;
+      }
+      .instructions h3 {
+        font-family: "Fraunces", serif;
+        font-size: 24px;
+        font-weight: 500;
+        margin-bottom: 20px;
+        color: var(--ink);
+      }
+      .instructions ol {
+        padding-left: 0;
+        list-style: none;
+        counter-reset: stepnum;
+      }
+      .instructions li {
+        counter-increment: stepnum;
+        padding: 12px 0 12px 56px;
+        border-bottom: 1px solid var(--rule);
+        position: relative;
+        font-size: 15px;
+        line-height: 1.55;
+        color: var(--ink-2);
+      }
+      .instructions li:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+      .instructions li::before {
+        content: counter(stepnum, decimal-leading-zero);
+        position: absolute;
+        left: 0;
+        top: 14px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 13px;
+        color: var(--rust);
+        font-weight: 500;
+      }
+      .instructions code {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 13px;
+        background: var(--cream-deep);
+        padding: 2px 6px;
+        border-radius: 3px;
+        color: var(--ink);
+      }
+
+      /* ============= RESPONSIVE ============= */
+      @media (max-width: 900px) {
+        .download-main {
+          grid-template-columns: 1fr;
+          padding: 28px;
+          gap: 28px;
+        }
+        .downloads-grid {
+          grid-template-columns: 1fr;
+        }
+        .instructions {
+          padding: 24px;
+        }
+        .zip-tree {
+          padding: 18px;
+          font-size: 12px;
+        }
+      }
+      @media (max-width: 600px) {
+        .download-main-left h2 {
+          font-size: 28px;
+        }
+        .download-btn {
+          padding: 14px 22px;
+          font-size: 15px;
+          width: 100%;
+          justify-content: center;
+        }
+        .download-meta {
+          gap: 16px;
+        }
+        .download-item {
+          padding: 18px;
+          gap: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar" aria-label="Navegación principal">
+      <div class="nav-inner">
+        <a href="index.html" class="nav-brand">
+          TFI <span class="nav-brand-tag">Rust vs C++</span>
+        </a>
+        <button
+          class="nav-toggle"
+          aria-label="Abrir menú"
+          aria-expanded="false"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+        <ul class="nav-links" role="list">
+          <li><a href="index.html" data-page="index.html">Inicio</a></li>
+          <li>
+            <a href="presentacion.html" data-page="presentacion.html"
+              >Presentación</a
+            >
+          </li>
+          <li>
+            <a href="descargas.html" data-page="descargas.html">Descargas</a>
+          </li>
+          <li>
+            <a
+              href="assets/pdf/TFI Modelos y Simulacion Rust vs C++ (Elias Uribe).pdf"
+              target="_blank"
+              rel="noopener"
+              >Informe PDF ↗</a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container">
+      <header class="page-hero">
+        <span class="eyebrow">Etapa 05 · Recursos descargables</span>
+        <h1>Descargas</h1>
+        <p class="lead">
+          Todo el material del Trabajo Final Integrador disponible para descarga
+          y reproducción. El paquete completo incluye el código de simulación,
+          los datasets en su forma cruda y limpia, y el informe final en PDF.
+        </p>
+      </header>
+
+      <!-- ============= MAIN ZIP DOWNLOAD ============= -->
+      <section style="margin-bottom: 56px">
+        <div class="download-main">
+          <div class="download-main-left">
+            <span class="eyebrow" style="margin-bottom: 12px"
+              >Paquete completo</span
+            >
+            <h2>TFI-Rust-vs-Cpp.zip</h2>
+            <p>
+              Un solo archivo ZIP con todo el material reproducible del trabajo.
+              Pensado para que cualquier persona pueda recorrer el análisis
+              desde los datos crudos hasta las figuras finales.
+            </p>
+            <div class="download-meta">
+              <div class="download-meta-item">
+                <strong>Formato:</strong> ZIP
+              </div>
+              <div class="download-meta-item">
+                <strong>Tamaño:</strong> ~1.4 MB
+              </div>
+              <div class="download-meta-item">
+                <strong>Archivos:</strong> 12
+              </div>
+            </div>
+            <a
+              href="assets/zip/TFI-Rust-vs-Cpp.zip"
+              class="download-btn"
+              download
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              Descargar ZIP completo
+            </a>
+          </div>
+          <div class="download-main-right">
+            <div class="zip-tree" aria-label="Estructura del archivo ZIP">
+              <span class="tree-folder">TFI-Rust-vs-Cpp.zip</span>
+              ├── <span class="tree-folder">Código/</span> │ ├──
+              <span class="tree-file">simulacion_bass.py</span> │ ├──
+              <span class="tree-folder">figuras/</span> │ │ ├──
+              <span class="tree-file">fig1_ajuste_bass.png</span> │ │ ├──
+              <span class="tree-file">fig2_validacion.png</span> │ │ ├──
+              <span class="tree-file">fig3_escenarios.png</span> │ │ ├──
+              <span class="tree-file">fig4_cruce_rust_cpp.png</span> │ │ ├──
+              <span class="tree-file">fig5_sensibilidad.png</span> │ │ └──
+              <span class="tree-file">fig6_velocidad_adopcion.png</span> │ └──
+              <span class="tree-folder">resultados/</span> │ ├──
+              <span class="tree-file">proyecciones_2016_2030.csv</span> │ └──
+              <span class="tree-file">resumen_simulacion.json</span> ├──
+              <span class="tree-folder">Datasets/</span> │ ├──
+              <span class="tree-file">dataset_adopcion_rust_vs_cpp.xlsx</span> │
+              └── <span class="tree-file">datos_para_simulacion.csv</span> └──
+              <span class="tree-pdf"
+                >TFI Modelos y Simulacion Rust vs C++ (Elias Uribe).pdf</span
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============= INDIVIDUAL DOWNLOADS ============= -->
+      <section
+        class="section"
+        style="padding-top: 0; padding-bottom: 48px; border-bottom: none"
+      >
+        <div class="section-head">
+          <span class="eyebrow">Archivos individuales</span>
+          <h2
+            style="
+              font-family: &quot;Fraunces&quot;, serif;
+              font-weight: 700;
+              font-size: clamp(28px, 4vw, 40px);
+              line-height: 1.1;
+              letter-spacing: -0.02em;
+              margin-bottom: 12px;
+              color: var(--ink);
+            "
+          >
+            ¿Necesitás solo un archivo?
+          </h2>
+          <p class="lead">
+            Si solo necesitás una pieza específica del trabajo, descargala
+            directo desde acá sin tener que extraer el ZIP completo.
+          </p>
+        </div>
+
+        <div class="downloads-grid">
+          <a
+            href="assets/pdf/TFI Modelos y Simulacion Rust vs C++ (Elias Uribe).pdf"
+            class="download-item"
+            target="_blank"
+            rel="noopener"
+          >
+            <div class="download-item-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path
+                  d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                />
+                <polyline points="14 2 14 8 20 8" />
+              </svg>
+            </div>
+            <div class="download-item-body">
+              <div class="download-item-title">
+                TFI Modelos y Simulacion Rust vs C++ (Elias Uribe).pdf
+              </div>
+              <div class="download-item-meta">PDF · 29 páginas · ~890 KB</div>
+            </div>
+            <svg
+              class="download-item-arrow"
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14M13 5l7 7-7 7" />
+            </svg>
+          </a>
+
+          <a
+            href="assets/img/fig1_ajuste_bass.png"
+            class="download-item"
+            download
+          >
+            <div class="download-item-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                <circle cx="8.5" cy="8.5" r="1.5" />
+                <polyline points="21 15 16 10 5 21" />
+              </svg>
+            </div>
+            <div class="download-item-body">
+              <div class="download-item-title">
+                Figura 1 · Ajuste del modelo Bass
+              </div>
+              <div class="download-item-meta">PNG · 1200×720</div>
+            </div>
+            <svg
+              class="download-item-arrow"
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14M13 5l7 7-7 7" />
+            </svg>
+          </a>
+
+          <a
+            href="assets/img/fig2_validacion.png"
+            class="download-item"
+            download
+          >
+            <div class="download-item-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                <circle cx="8.5" cy="8.5" r="1.5" />
+                <polyline points="21 15 16 10 5 21" />
+              </svg>
+            </div>
+            <div class="download-item-body">
+              <div class="download-item-title">
+                Figura 2 · Validación out-of-sample
+              </div>
+              <div class="download-item-meta">PNG · 1200×720</div>
+            </div>
+            <svg
+              class="download-item-arrow"
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14M13 5l7 7-7 7" />
+            </svg>
+          </a>
+
+          <a
+            href="assets/img/fig3_escenarios.png"
+            class="download-item"
+            download
+          >
+            <div class="download-item-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                <circle cx="8.5" cy="8.5" r="1.5" />
+                <polyline points="21 15 16 10 5 21" />
+              </svg>
+            </div>
+            <div class="download-item-body">
+              <div class="download-item-title">
+                Figura 3 · Escenarios contrafácticos
+              </div>
+              <div class="download-item-meta">PNG · 1320×780</div>
+            </div>
+            <svg
+              class="download-item-arrow"
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14M13 5l7 7-7 7" />
+            </svg>
+          </a>
+
+          <a
+            href="assets/img/fig4_cruce_rust_cpp.png"
+            class="download-item"
+            download
+          >
+            <div class="download-item-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                <circle cx="8.5" cy="8.5" r="1.5" />
+                <polyline points="21 15 16 10 5 21" />
+              </svg>
+            </div>
+            <div class="download-item-body">
+              <div class="download-item-title">Figura 4 · Cruce Rust > C++</div>
+              <div class="download-item-meta">PNG · 1320×780</div>
+            </div>
+            <svg
+              class="download-item-arrow"
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14M13 5l7 7-7 7" />
+            </svg>
+          </a>
+
+          <a
+            href="assets/img/fig5_sensibilidad.png"
+            class="download-item"
+            download
+          >
+            <div class="download-item-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                <circle cx="8.5" cy="8.5" r="1.5" />
+                <polyline points="21 15 16 10 5 21" />
+              </svg>
+            </div>
+            <div class="download-item-body">
+              <div class="download-item-title">
+                Figura 5 · Análisis de sensibilidad
+              </div>
+              <div class="download-item-meta">PNG · 1560×660</div>
+            </div>
+            <svg
+              class="download-item-arrow"
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14M13 5l7 7-7 7" />
+            </svg>
+          </a>
+
+          <a
+            href="assets/img/fig6_velocidad_adopcion.png"
+            class="download-item"
+            download
+          >
+            <div class="download-item-icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                <circle cx="8.5" cy="8.5" r="1.5" />
+                <polyline points="21 15 16 10 5 21" />
+              </svg>
+            </div>
+            <div class="download-item-body">
+              <div class="download-item-title">
+                Figura 6 · Velocidad de adopción
+              </div>
+              <div class="download-item-meta">PNG · 1200×720</div>
+            </div>
+            <svg
+              class="download-item-arrow"
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14M13 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </section>
+
+      <!-- ============= INSTRUCTIONS ============= -->
+      <section style="padding-bottom: 80px">
+        <div class="section-head">
+          <span class="eyebrow">Reproducir el análisis</span>
+          <h2
+            style="
+              font-family: &quot;Fraunces&quot;, serif;
+              font-weight: 700;
+              font-size: clamp(28px, 4vw, 40px);
+              line-height: 1.1;
+              letter-spacing: -0.02em;
+              margin-bottom: 12px;
+              color: var(--ink);
+            "
+          >
+            Cómo correr la simulación localmente
+          </h2>
+          <p class="lead">
+            El código está pensado para ejecutarse en cualquier entorno Python 3
+            con las librerías científicas estándar.
+          </p>
+        </div>
+
+        <div class="instructions">
+          <h3>Pasos para reproducir</h3>
+          <ol>
+            <li>
+              Descargá el ZIP completo y descomprimilo en una carpeta de
+              trabajo.
+            </li>
+            <li>
+              Instalá las dependencias:
+              <code>pip install numpy pandas scipy matplotlib</code>
+            </li>
+            <li>
+              Ubicate dentro de la carpeta <code>Código/</code> y abrí
+              <code>simulacion_bass.py</code> con tu editor.
+            </li>
+            <li>
+              Ajustá la variable <code>BASE_DIR</code> al inicio del script con
+              la ruta donde descomprimiste el ZIP.
+            </li>
+            <li>
+              Verificá que el archivo <code>datos_para_simulacion.csv</code> de
+              la carpeta <code>Datasets/</code> esté accesible desde el script.
+            </li>
+            <li>
+              Ejecutá con <code>python simulacion_bass.py</code>. El script crea
+              las carpetas necesarias, ajusta el modelo, corre los cuatro
+              escenarios y guarda las seis figuras y el resumen JSON.
+            </li>
+            <li>
+              Tiempo total de ejecución estimado: menos de 30 segundos en una
+              computadora moderna.
+            </li>
+          </ol>
+        </div>
+      </section>
+    </div>
+
+    <!-- ============= FOOTER ============= -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-col">
+            <div class="footer-brand">TFI · Adopción de Rust vs C++</div>
+            <p>
+              Trabajo Final Integrador realizado para la asignatura Modelos y
+              Simulación de la carrera Ingeniería en Informática de la UNNOBA.
+            </p>
+            <p style="margin-top: 8px">
+              El contenido completo, código fuente y datos están disponibles
+              para revisión y reproducción.
+            </p>
+          </div>
+          <div class="footer-col">
+            <h4>Navegación</h4>
+            <ul>
+              <li><a href="index.html">Inicio</a></li>
+              <li><a href="presentacion.html">Presentación</a></li>
+              <li><a href="descargas.html">Descargas</a></li>
+              <li>
+                <a
+                  href="assets/pdf/TFI Modelos y Simulacion Rust vs C++ (Elias Uribe).pdf"
+                  target="_blank"
+                  rel="noopener"
+                  >Informe PDF</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Información</h4>
+            <ul>
+              <li>Elias Uribe</li>
+              <li>UNNOBA</li>
+              <li>Modelos y Simulación</li>
+              <li>Julio 2026</li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>© 2026 Elias Uribe · TFI Modelos y Simulación</span>
+          <span>Sitio estático · HTML + CSS + JavaScript</span>
+        </div>
+      </div>
+    </footer>
+
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>

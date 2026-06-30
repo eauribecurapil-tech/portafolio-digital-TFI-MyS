@@ -1,0 +1,1102 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TFI · Adopción de Rust vs C++ · Modelos y Simulación</title>
+    <meta
+      name="description"
+      content="Trabajo Final Integrador de Modelos y Simulación. Análisis cuantitativo de la adopción de Rust como reemplazo de C++ en programación de sistemas, con modelo de difusión de Bass."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/shared.css" />
+    <style>
+      /* ============= HERO ============= */
+      .hero {
+        padding: 88px 0 72px;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero-inner {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr;
+        gap: 64px;
+        align-items: end;
+      }
+      .hero-eyebrow {
+        margin-bottom: 24px;
+      }
+      .hero h1 {
+        font-family: "Fraunces", serif;
+        font-weight: 700;
+        font-size: clamp(44px, 6.5vw, 84px);
+        line-height: 1.02;
+        letter-spacing: -0.025em;
+        margin-bottom: 32px;
+        color: var(--ink);
+      }
+      .hero .lead {
+        font-size: clamp(18px, 1.8vw, 22px);
+        line-height: 1.5;
+        color: var(--ink-2);
+        margin-bottom: 36px;
+        max-width: 58ch;
+      }
+      .hero-cta {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+      .hero-meta {
+        padding-bottom: 8px;
+      }
+      .hero-meta-block {
+        border-top: 1px solid var(--rule);
+        padding-top: 20px;
+      }
+      .hero-meta-row {
+        display: flex;
+        gap: 16px;
+        align-items: baseline;
+        margin-bottom: 14px;
+      }
+      .hero-meta-row:last-child {
+        margin-bottom: 0;
+      }
+      .hero-meta-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        color: var(--ink-3);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        min-width: 100px;
+        flex-shrink: 0;
+      }
+      .hero-meta-value {
+        font-size: 15px;
+        color: var(--ink);
+        line-height: 1.4;
+      }
+
+      /* Decorative S-curve */
+      .hero-svg {
+        position: absolute;
+        right: -100px;
+        top: -40px;
+        width: 360px;
+        height: 320px;
+        opacity: 0.08;
+        pointer-events: none;
+      }
+
+      /* ============= METRICS BAND ============= */
+      .metrics-band {
+        background: var(--paper);
+        border-top: 1px solid var(--rule);
+        border-bottom: 1px solid var(--rule);
+        padding: 36px 0;
+      }
+      .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 32px;
+      }
+
+      /* ============= PROBLEM SECTION ============= */
+      .two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 48px;
+        align-items: start;
+      }
+      .col h4 {
+        font-family: "Fraunces", serif;
+        font-size: 28px;
+        font-weight: 500;
+        margin-bottom: 14px;
+        color: var(--rust);
+      }
+      .col p {
+        font-size: 17px;
+        line-height: 1.65;
+        color: var(--ink-2);
+        margin-bottom: 16px;
+      }
+      .col p strong {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      /* ============= STAGES ============= */
+      .stages {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 16px;
+      }
+      .stage {
+        background: var(--paper);
+        border: 1px solid var(--rule);
+        padding: 24px;
+        position: relative;
+      }
+      .stage-num {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        color: var(--rust);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 12px;
+      }
+      .stage-title {
+        font-family: "Fraunces", serif;
+        font-size: 22px;
+        font-weight: 500;
+        margin-bottom: 12px;
+        line-height: 1.15;
+      }
+      .stage-desc {
+        font-size: 14px;
+        color: var(--ink-2);
+        line-height: 1.5;
+      }
+
+      /* ============= MODEL SECTION ============= */
+      .equation-card {
+        background: var(--paper);
+        border: 1px solid var(--rule);
+        padding: 56px 32px;
+        text-align: center;
+        margin: 40px 0;
+      }
+      .equation-card .eq {
+        font-family: "Fraunces", serif;
+        font-size: clamp(28px, 4.5vw, 52px);
+        font-weight: 400;
+        color: var(--ink);
+        line-height: 1.1;
+        font-style: italic;
+        margin-bottom: 20px;
+      }
+      .equation-card .eq-where {
+        font-size: 14px;
+        color: var(--ink-3);
+        font-family: "JetBrains Mono", monospace;
+      }
+      .params-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin-top: 24px;
+      }
+      .param {
+        background: var(--paper);
+        border: 1px solid var(--rule);
+        padding: 24px;
+      }
+      .param-name {
+        font-family: "Fraunces", serif;
+        font-style: italic;
+        font-size: 48px;
+        color: var(--rust);
+        line-height: 1;
+        margin-bottom: 8px;
+      }
+      .param-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--ink-3);
+        margin-bottom: 4px;
+      }
+      .param-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 8px;
+      }
+      .param-desc {
+        font-size: 13px;
+        line-height: 1.5;
+        color: var(--ink-2);
+        margin-bottom: 16px;
+      }
+      .param-value {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 18px;
+        color: var(--navy);
+        padding-top: 14px;
+        border-top: 1px solid var(--rule);
+        font-weight: 500;
+      }
+
+      /* ============= RESULTS / FIGURES ============= */
+      .figure-block {
+        background: var(--paper);
+        border: 1px solid var(--rule);
+        padding: 24px;
+        margin-bottom: 24px;
+      }
+      .figure-block img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      .figure-caption {
+        font-size: 13px;
+        color: var(--ink-3);
+        font-style: italic;
+        margin-top: 14px;
+        line-height: 1.5;
+      }
+      .results-grid {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr;
+        gap: 32px;
+        align-items: start;
+      }
+      .results-text h3 {
+        font-family: "Fraunces", serif;
+        font-size: 28px;
+        font-weight: 500;
+        margin-bottom: 16px;
+        color: var(--ink);
+        margin-top: 24px;
+      }
+      .results-text h3:first-child {
+        margin-top: 0;
+      }
+      .results-text p {
+        font-size: 16px;
+        line-height: 1.6;
+        color: var(--ink-2);
+        margin-bottom: 12px;
+      }
+
+      /* ============= KEY FINDING ============= */
+      .finding-card {
+        background: var(--rust-soft);
+        border-left: 3px solid var(--rust);
+        padding: 40px;
+      }
+      .finding-pq {
+        font-family: "Fraunces", serif;
+        font-style: italic;
+        font-size: clamp(60px, 8vw, 96px);
+        font-weight: 400;
+        line-height: 1;
+        margin-bottom: 24px;
+        color: var(--rust-deep);
+        letter-spacing: -0.02em;
+      }
+      .finding-pq .pq-sign {
+        color: var(--rust);
+        font-style: normal;
+        margin: 0 16px;
+      }
+      .finding-text {
+        font-size: 19px;
+        line-height: 1.55;
+        color: var(--ink);
+        max-width: 60ch;
+      }
+      .finding-text strong {
+        font-weight: 600;
+      }
+
+      /* ============= ANSWER (2028) ============= */
+      .answer-block {
+        text-align: center;
+        padding: 40px 20px;
+        background: var(--paper);
+        border: 1px solid var(--rule);
+      }
+      .answer-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        color: var(--ink-3);
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        margin-bottom: 16px;
+      }
+      .answer-year {
+        font-family: "Fraunces", serif;
+        font-size: clamp(96px, 14vw, 180px);
+        line-height: 0.95;
+        color: var(--rust);
+        font-weight: 400;
+        letter-spacing: -0.04em;
+        margin-bottom: 20px;
+      }
+      .answer-desc {
+        font-size: 18px;
+        color: var(--ink-2);
+        max-width: 50ch;
+        margin: 0 auto;
+        line-height: 1.5;
+      }
+
+      /* ============= NAV CARDS ============= */
+      .resource-cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+      .resource-card {
+        background: var(--paper);
+        border: 1px solid var(--rule);
+        padding: 36px 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        color: inherit;
+        min-height: 280px;
+      }
+      .resource-card:hover {
+        border-color: var(--rust);
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-lg);
+        text-decoration: none;
+        color: inherit;
+      }
+      .resource-card-icon {
+        width: 40px;
+        height: 40px;
+        color: var(--rust);
+      }
+      .resource-card h3 {
+        font-family: "Fraunces", serif;
+        font-size: 26px;
+        font-weight: 500;
+        color: var(--ink);
+        line-height: 1.15;
+      }
+      .resource-card p {
+        font-size: 15px;
+        color: var(--ink-2);
+        line-height: 1.5;
+        flex-grow: 1;
+      }
+      .resource-card .card-go {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        color: var(--rust);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: gap 0.2s ease;
+      }
+      .resource-card:hover .card-go {
+        gap: 12px;
+      }
+
+      /* ============= RESPONSIVE ============= */
+      @media (max-width: 900px) {
+        .hero {
+          padding: 56px 0 56px;
+        }
+        .hero-inner {
+          grid-template-columns: 1fr;
+          gap: 36px;
+          align-items: start;
+        }
+        .hero-svg {
+          display: none;
+        }
+        .metrics-grid {
+          grid-template-columns: 1fr 1fr;
+          gap: 28px;
+        }
+        .two-col {
+          grid-template-columns: 1fr;
+          gap: 28px;
+        }
+        .stages {
+          grid-template-columns: 1fr 1fr;
+        }
+        .params-grid {
+          grid-template-columns: 1fr;
+        }
+        .results-grid {
+          grid-template-columns: 1fr;
+        }
+        .resource-cards {
+          grid-template-columns: 1fr;
+        }
+        .equation-card {
+          padding: 36px 20px;
+        }
+        .finding-card {
+          padding: 28px;
+        }
+      }
+      @media (max-width: 600px) {
+        .metrics-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .stages {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ============= NAVBAR ============= -->
+    <nav class="navbar" aria-label="Navegación principal">
+      <div class="nav-inner">
+        <a href="index.html" class="nav-brand">
+          TFI <span class="nav-brand-tag">Rust vs C++</span>
+        </a>
+        <button
+          class="nav-toggle"
+          aria-label="Abrir menú"
+          aria-expanded="false"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+        <ul class="nav-links" role="list">
+          <li><a href="index.html" data-page="index.html">Inicio</a></li>
+          <li>
+            <a href="presentacion.html" data-page="presentacion.html"
+              >Presentación</a
+            >
+          </li>
+          <li>
+            <a href="descargas.html" data-page="descargas.html">Descargas</a>
+          </li>
+          <li>
+            <a
+              href="assets/pdf/TFI Modelos y Simulacion Rust vs C++ (Elias Uribe).pdf"
+              target="_blank"
+              rel="noopener"
+              >Informe PDF ↗</a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- ============= HERO ============= -->
+    <header class="hero">
+      <svg class="hero-svg" viewBox="0 0 360 320" aria-hidden="true">
+        <path
+          d="M 0 280 Q 90 280 130 240 T 250 80 Q 290 30 360 20"
+          stroke="#C4471F"
+          stroke-width="3"
+          fill="none"
+        />
+        <path
+          d="M 0 280 Q 90 280 130 240 T 250 80 Q 290 30 360 20"
+          stroke="#C4471F"
+          stroke-width="1"
+          fill="none"
+          stroke-dasharray="4 4"
+        />
+      </svg>
+      <div class="container">
+        <div class="hero-inner">
+          <div>
+            <div class="eyebrow hero-eyebrow">
+              Modelos y Simulación · 2026 · Portafolio digital
+            </div>
+            <h1 class="display display-bold">
+              Adopción de Rust como reemplazo de C++ en programación de sistemas
+            </h1>
+            <p class="lead">
+              Trabajo Final Integrador. Análisis cuantitativo del proceso de
+              migración de C++ a Rust con un modelo de difusión de Bass ajustado
+              contra datos reales del período 2016–2025.
+            </p>
+            <div class="hero-cta">
+              <a href="presentacion.html" class="btn btn-primary btn-lg">
+                Ver presentación
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M5 12h14M13 5l7 7-7 7" />
+                </svg>
+              </a>
+              <a href="descargas.html" class="btn btn-secondary btn-lg">
+                Descargar archivos
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <aside class="hero-meta">
+            <div class="hero-meta-block">
+              <div class="hero-meta-row">
+                <span class="hero-meta-label">Estudiante</span>
+                <span class="hero-meta-value"
+                  ><strong>Elias Uribe</strong></span
+                >
+              </div>
+              <div class="hero-meta-row">
+                <span class="hero-meta-label">Carrera</span>
+                <span class="hero-meta-value">Ingeniería en Informática</span>
+              </div>
+              <div class="hero-meta-row">
+                <span class="hero-meta-label">Asignatura</span>
+                <span class="hero-meta-value">Modelos y Simulación</span>
+              </div>
+              <div class="hero-meta-row">
+                <span class="hero-meta-label">Universidad</span>
+                <span class="hero-meta-value">UNNOBA</span>
+              </div>
+              <div class="hero-meta-row">
+                <span class="hero-meta-label">Período</span>
+                <span class="hero-meta-value">4º año · 1er cuatrimestre</span>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============= METRICS BAND ============= -->
+    <section class="metrics-band" aria-label="Métricas clave del modelo">
+      <div class="container">
+        <div class="metrics-grid">
+          <div class="metric">
+            <div class="metric-value">0.95</div>
+            <div class="metric-label">R² del ajuste</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">1.03 pp</div>
+            <div class="metric-label">RMSE sobre rango de 12.5 pp</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">2028</div>
+            <div class="metric-label">Año previsto del cruce Rust > C++</div>
+          </div>
+          <div class="metric">
+            <div class="metric-value">10</div>
+            <div class="metric-label">Años de datos reales analizados</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============= EL PROBLEMA ============= -->
+    <section class="section" id="problema">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Etapa 01 · El fenómeno</span>
+          <h2>Dos lenguajes, una transición histórica.</h2>
+          <p class="lead">
+            La industria del software vive una migración progresiva de C++ hacia
+            Rust, impulsada por la demanda de seguridad de memoria. El proceso
+            ya no es teórico: tiene fechas, hitos y datos verificables.
+          </p>
+        </div>
+        <div class="two-col">
+          <div class="col">
+            <h4>C++ (1985)</h4>
+            <p>
+              Estándar de facto en sistemas críticos durante 40 años.
+              Performance excepcional y control total de memoria, pero con
+              <strong>seguridad delegada al programador</strong>. El 70% de las
+              vulnerabilidades en software de Microsoft proviene de errores de
+              manejo de memoria.
+            </p>
+          </div>
+          <div class="col">
+            <h4>Rust (2015)</h4>
+            <p>
+              Memoria segura por diseño: el compilador previene los errores
+              comunes de C++ sin perder performance.
+              <strong
+                >Adoptado por Linux, Android, Microsoft, Cloudflare y
+                AWS.</strong
+              >
+              Sistema de ownership único en su categoría.
+            </p>
+          </div>
+        </div>
+        <p
+          style="
+            margin-top: 36px;
+            font-size: 18px;
+            line-height: 1.6;
+            color: var(--ink-2);
+            max-width: 70ch;
+          "
+        >
+          La pregunta no es <em>si</em> Rust va a reemplazar a C++, sino
+          <em>cuándo</em>, <em>qué tan rápido</em> y
+          <em>qué condiciones</em> hacen que la transición se acelere. Este
+          trabajo aborda esas tres preguntas con un modelo matemático
+          específico.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============= METODOLOGÍA ============= -->
+    <section class="section" id="metodologia">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Metodología</span>
+          <h2>Cinco etapas, una decisión técnica por etapa.</h2>
+          <p class="lead">
+            El trabajo sigue las cinco etapas definidas en la consigna del TFI.
+            Cada etapa está atada a una decisión técnica concreta y documentada.
+          </p>
+        </div>
+        <div class="stages">
+          <article class="stage">
+            <div class="stage-num">Etapa 01</div>
+            <div class="stage-title">Problema</div>
+            <div class="stage-desc">
+              Definición del fenómeno, objetivos y pregunta de investigación.
+            </div>
+          </article>
+          <article class="stage">
+            <div class="stage-num">Etapa 02</div>
+            <div class="stage-title">Datos</div>
+            <div class="stage-desc">
+              Recolección de series temporales desde cuatro fuentes públicas
+              independientes.
+            </div>
+          </article>
+          <article class="stage">
+            <div class="stage-num">Etapa 03</div>
+            <div class="stage-title">Limpieza</div>
+            <div class="stage-desc">
+              Unificación, validación cruzada y detección de puntos críticos.
+            </div>
+          </article>
+          <article class="stage">
+            <div class="stage-num">Etapa 04</div>
+            <div class="stage-title">Modelo</div>
+            <div class="stage-desc">
+              Formulación del Bass / SIR, ajuste, validación y simulación de
+              escenarios.
+            </div>
+          </article>
+          <article class="stage">
+            <div class="stage-num">Etapa 05</div>
+            <div class="stage-title">Documentación</div>
+            <div class="stage-desc">
+              Portafolio digital con transparencia sobre el uso de IA.
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============= MODELO BASS ============= -->
+    <section class="section" id="modelo">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Etapa 04 · El modelo</span>
+          <h2>Bass de difusión, una variante del SIR.</h2>
+          <p class="lead">
+            Una sola ecuación diferencial, tres parámetros, capacidad de
+            explicar fenómenos de adopción tecnológica desde Netflix hasta los
+            smartphones. Tiene solución analítica, lo que simplifica el ajuste
+            por mínimos cuadrados.
+          </p>
+        </div>
+        <div class="equation-card">
+          <div class="eq">dN/dt = (p + q · N/m) · (m − N)</div>
+          <div class="eq-where">
+            donde N(t) es la fracción acumulada de adoptantes en el tiempo t
+          </div>
+        </div>
+        <div class="params-grid">
+          <div class="param">
+            <div class="param-name">p</div>
+            <div class="param-label">Coeficiente</div>
+            <div class="param-title">Innovación</div>
+            <div class="param-desc">
+              Influencia externa sobre los no-adoptantes. Modela regulación,
+              anuncios corporativos y cobertura mediática.
+            </div>
+            <div class="param-value">0.0445</div>
+          </div>
+          <div class="param">
+            <div class="param-name">q</div>
+            <div class="param-label">Coeficiente</div>
+            <div class="param-title">Imitación</div>
+            <div class="param-desc">
+              Boca a boca proporcional a la fracción ya adoptada. Modela presión
+              de pares y casos de éxito visibles.
+            </div>
+            <div class="param-value">0.315</div>
+          </div>
+          <div class="param">
+            <div class="param-name">m</div>
+            <div class="param-label">Parámetro</div>
+            <div class="param-title">Mercado potencial</div>
+            <div class="param-desc">
+              Techo asintótico de adopción. No todos los devs van a adoptar Rust
+              aunque el sistema crezca indefinidamente.
+            </div>
+            <div class="param-value">19.6%</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============= RESULTADOS ============= -->
+    <section class="section" id="resultados">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Etapa 04 · Resultados</span>
+          <h2>El modelo ajusta y predice.</h2>
+          <p class="lead">
+            Dos validaciones independientes: la bondad del ajuste contra todos
+            los datos (R² = 0.95) y la capacidad predictiva out-of-sample (RMSE
+            = 1.32 pp prediciendo 2023–2025 con datos hasta 2022).
+          </p>
+        </div>
+        <div class="results-grid">
+          <div>
+            <figure class="figure-block">
+              <img
+                src="assets/img/fig1_ajuste_bass.png"
+                alt="Curva del modelo Bass ajustada contra los 10 puntos de datos reales de Stack Overflow"
+              />
+              <figcaption class="figure-caption">
+                Figura 1. Modelo Bass ajustado contra los datos reales de Stack
+                Overflow Survey (2016-2025). R² = 0.95, RMSE = 1.03 pp sobre un
+                rango de variación de 12.5 pp, lo que representa un error
+                relativo cercano al 8%.
+              </figcaption>
+            </figure>
+            <figure class="figure-block">
+              <img
+                src="assets/img/fig2_validacion.png"
+                alt="Validación out-of-sample: el modelo entrenado con 2016-2022 predice correctamente los datos reales de 2023-2025"
+              />
+              <figcaption class="figure-caption">
+                Figura 2. Validación temporal. El modelo entrenado únicamente
+                con datos 2016–2022 predice los tres años siguientes con error
+                de 1.32 pp.
+              </figcaption>
+            </figure>
+          </div>
+          <div class="results-text">
+            <h3>El ajuste describe</h3>
+            <p>
+              Los tres parámetros del modelo se estimaron por mínimos cuadrados
+              no lineales con scipy. El coeficiente de imitación q es siete
+              veces el de innovación p, lo que indica que el boca a boca domina
+              ampliamente la influencia externa.
+            </p>
+            <p>
+              R² = 0.95 significa que el modelo explica el 95% de la varianza
+              observada. El RMSE de 1.03 pp se interpreta como el error promedio
+              en puntos porcentuales.
+            </p>
+
+            <h3>La validación predice</h3>
+            <p>
+              Para distinguir un modelo que describe de uno que predice, los
+              datos se dividieron temporalmente: entrenamiento con 2016–2022,
+              prueba con 2023–2025. El error en prueba se mantiene en el mismo
+              orden de magnitud que el ajuste.
+            </p>
+            <p>
+              Esto valida la capacidad predictiva del modelo, no solo su
+              capacidad descriptiva.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============= DESCUBRIMIENTO CLAVE ============= -->
+    <section class="section" id="descubrimiento">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Descubrimiento clave</span>
+          <h2>El parámetro que importa es q, no p.</h2>
+          <p class="lead">
+            El análisis de sensibilidad muestra que duplicar el boca a boca
+            produce trayectorias mucho más empinadas que duplicar la influencia
+            externa. Es la conclusión contraintuitiva más fuerte del análisis.
+          </p>
+        </div>
+        <div class="finding-card">
+          <div class="finding-pq">p<span class="pq-sign">&lt;</span>q</div>
+          <p class="finding-text">
+            Lectura ingenieril: para acelerar la adopción de Rust, invertir en
+            <strong>comunidades de desarrolladores</strong> y
+            <strong>casos de éxito visibles</strong> tiene más impacto que
+            campañas regulatorias o anuncios corporativos aislados.
+          </p>
+        </div>
+        <figure class="figure-block" style="margin-top: 32px">
+          <img
+            src="assets/img/fig5_sensibilidad.png"
+            alt="Análisis de sensibilidad: la curva responde más a cambios en q que a cambios en p"
+          />
+          <figcaption class="figure-caption">
+            Figura 3. Análisis de sensibilidad. La trayectoria de adopción es
+            notablemente más sensible al coeficiente de imitación q que al de
+            innovación p.
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============= RESPUESTA: 2028 ============= -->
+    <section class="section" id="respuesta">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Respuesta a la pregunta de investigación</span>
+          <h2>Rust supera a C++ en 2028.</h2>
+          <p class="lead">
+            Combinando el modelo Bass para Rust con un decaimiento exponencial
+            ajustado para C++, el cruce donde Rust pasa a tener más usuarios que
+            C++ ocurre a comienzos de 2028 en el escenario base. Una predicción
+            cuantitativa, falsable y verificable en el corto plazo.
+          </p>
+        </div>
+        <div class="answer-block">
+          <div class="answer-label">Punto de cruce Rust &gt; C++</div>
+          <div class="answer-year">2028</div>
+          <p class="answer-desc">
+            El año en que, según el modelo ajustado, Rust supera a C++ en
+            porcentaje de desarrolladores que lo usan según Stack Overflow
+            Survey.
+          </p>
+        </div>
+        <figure class="figure-block" style="margin-top: 32px">
+          <img
+            src="assets/img/fig4_cruce_rust_cpp.png"
+            alt="Las curvas de Rust en ascenso y C++ en declive se cruzan a comienzos de 2028"
+          />
+          <figcaption class="figure-caption">
+            Figura 4. Proyección de Rust y C++ hasta 2030. La marca verde indica
+            el punto de cruce calculado por el modelo.
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============= RECURSOS ============= -->
+    <section class="section" id="recursos">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Recursos del portafolio</span>
+          <h2>Acceso a todo el trabajo.</h2>
+          <p class="lead">
+            El portafolio incluye una presentación interactiva, el informe
+            completo en PDF y un paquete descargable con código fuente, datasets
+            y figuras.
+          </p>
+        </div>
+        <div class="resource-cards">
+          <a href="presentacion.html" class="resource-card">
+            <svg
+              class="resource-card-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+              <line x1="8" y1="21" x2="16" y2="21" />
+              <line x1="12" y1="17" x2="12" y2="21" />
+            </svg>
+            <h3>Presentación interactiva</h3>
+            <p>
+              18 slides navegables con teclado, simulador del modelo Bass en
+              vivo (sliders de p, q, m) y gráficos interactivos. Pensada para
+              defensa oral o lectura individual.
+            </p>
+            <span class="card-go">Abrir presentación →</span>
+          </a>
+          <a
+            href="assets/pdf/TFI Modelos y Simulacion Rust vs C++ (Elias Uribe).pdf"
+            target="_blank"
+            rel="noopener"
+            class="resource-card"
+          >
+            <svg
+              class="resource-card-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path
+                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+              />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="9" y1="13" x2="15" y2="13" />
+              <line x1="9" y1="17" x2="15" y2="17" />
+            </svg>
+            <h3>Informe completo en PDF</h3>
+            <p>
+              Documento de 29 páginas con las 12 secciones del TFI: presentación
+              del problema, marco teórico, metodología, resultados, discusión,
+              limitaciones, conclusiones y anexos con código y prompts.
+            </p>
+            <span class="card-go">Abrir PDF ↗</span>
+          </a>
+          <a href="descargas.html" class="resource-card">
+            <svg
+              class="resource-card-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            <h3>Paquete descargable</h3>
+            <p>
+              ZIP con todo el material reproducible: carpeta
+              <code>Código</code> con la simulación en Python, carpeta
+              <code>Datasets</code> con los datos crudos y limpios, y el PDF del
+              informe.
+            </p>
+            <span class="card-go">Ir a descargas →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============= CONCLUSIONES ============= -->
+    <section class="section" id="conclusiones">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Conclusiones</span>
+          <h2>Tres conclusiones claves del trabajo.</h2>
+        </div>
+        <div class="two-col">
+          <div class="col">
+            <h4>El modelo funciona</h4>
+            <p>
+              R² = 0.95 en ajuste y validación out-of-sample con RMSE de 1.32
+              pp. El modelo no solo describe el pasado: predice el futuro
+              inmediato con error comparable al del ajuste, lo cual es lo que se
+              le pide a un modelo aplicado.
+            </p>
+          </div>
+          <div class="col">
+            <h4>Rust supera a C++ en 2028</h4>
+            <p>
+              Resultado cuantitativo concreto, verificable en pocos años. La
+              hipótesis es falsable: si en 2028 Rust no supera a C++ en Stack
+              Overflow, el modelo o sus supuestos están equivocados. Eso es
+              ingeniería de verdad.
+            </p>
+          </div>
+        </div>
+        <div style="margin-top: 36px">
+          <div class="col" style="max-width: 70ch">
+            <h4>El boca a boca pesa más que la regulación</h4>
+            <p>
+              Para acelerar la adopción tecnológica, las comunidades de
+              desarrolladores pesan más que las recomendaciones top-down.
+              Conclusión contraintuitiva pero consistente con la cultura de la
+              industria del software.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============= FOOTER ============= -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-col">
+            <div class="footer-brand">TFI · Adopción de Rust vs C++</div>
+            <p>
+              Trabajo Final Integrador realizado para la asignatura Modelos y
+              Simulación de la carrera Ingeniería en Informática de la UNNOBA.
+            </p>
+            <p style="margin-top: 8px">
+              El contenido completo, código fuente y datos están disponibles
+              para revisión y reproducción.
+            </p>
+          </div>
+          <div class="footer-col">
+            <h4>Navegación</h4>
+            <ul>
+              <li><a href="index.html">Inicio</a></li>
+              <li><a href="presentacion.html">Presentación</a></li>
+              <li><a href="descargas.html">Descargas</a></li>
+              <li>
+                <a
+                  href="assets/pdf/TFI Modelos y Simulacion Rust vs C++ (Elias Uribe).pdf"
+                  target="_blank"
+                  rel="noopener"
+                  >Informe PDF</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Información</h4>
+            <ul>
+              <li>Elias Uribe</li>
+              <li>UNNOBA</li>
+              <li>Modelos y Simulación</li>
+              <li>Julio 2026</li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>© 2026 Elias Uribe · TFI Modelos y Simulación</span>
+          <span>Sitio estático · HTML + CSS + JavaScript</span>
+        </div>
+      </div>
+    </footer>
+
+    <script src="assets/js/shared.js"></script>
+  </body>
+</html>
