@@ -12479,19 +12479,19 @@
     </script>
     <style>
       :root {
-        --cream: #faf7f0;
-        --cream-deep: #f4e9d6;
+        --cream: #fafaf7;
+        --cream-deep: #f0eee5;
         --paper: #ffffff;
-        --ink: #1a1a1a;
-        --ink-2: #4a4a4a;
-        --ink-3: #7c7872;
-        --rust: #c4471f;
-        --rust-deep: #8b2e0f;
-        --navy: #1e3a52;
-        --navy-light: #3d6485;
-        --rule: #e8e2d5;
-        --accent-bg: #f4e4d0;
-        --good: #1d7a52;
+        --ink: #0a0a0a;
+        --ink-2: #3a3a3a;
+        --ink-3: #6b6b66;
+        --rust: #c2410c;
+        --rust-deep: #9a3208;
+        --navy: #1e3a8a;
+        --navy-light: #3b5ab8;
+        --rule: #e7e5de;
+        --accent-bg: #fbe8d9;
+        --good: #15803d;
       }
 
       * {
@@ -12605,7 +12605,7 @@
       }
       .topbar-home:hover {
         color: var(--rust);
-        background: rgba(196, 71, 31, 0.06);
+        background: rgba(194, 65, 12, 0.06);
       }
       .topbar-home:focus-visible {
         outline: 2px solid var(--rust);
@@ -12646,7 +12646,7 @@
       .topbar-sections-btn:hover {
         border-color: var(--rust);
         color: var(--rust);
-        background: rgba(196, 71, 31, 0.04);
+        background: rgba(194, 65, 12, 0.04);
       }
       .topbar-sections-btn:focus-visible {
         outline: 2px solid var(--rust);
@@ -12661,7 +12661,7 @@
       .sections-overlay {
         position: fixed;
         inset: 0;
-        background: rgba(26, 26, 26, 0.55);
+        background: rgba(10, 10, 10, 0.55);
         display: none;
         align-items: center;
         justify-content: center;
@@ -12676,7 +12676,7 @@
         padding: 40px 36px;
         max-width: 580px;
         width: 100%;
-        border: 1px solid #e8e2d5;
+        border: 1px solid #e7e5de;
         max-height: 88vh;
         overflow-y: auto;
       }
@@ -12686,27 +12686,27 @@
         align-items: baseline;
         margin-bottom: 24px;
         padding-bottom: 16px;
-        border-bottom: 1px solid #e8e2d5;
+        border-bottom: 1px solid #e7e5de;
       }
       .sections-panel-title {
         font-family: "Fraunces", serif;
         font-size: 26px;
         font-weight: 500;
         line-height: 1.1;
-        color: #1a1a1a;
+        color: #0a0a0a;
       }
       .sections-panel-eyebrow {
         font-family: "JetBrains Mono", monospace;
         font-size: 11px;
         text-transform: uppercase;
         letter-spacing: 0.12em;
-        color: #7c7872;
+        color: #6b6b66;
         margin-bottom: 4px;
       }
       .sections-close {
         background: transparent;
-        border: 1px solid #e8e2d5;
-        color: #4a4a4a;
+        border: 1px solid #e7e5de;
+        color: #3a3a3a;
         width: 32px;
         height: 32px;
         border-radius: 50%;
@@ -12720,8 +12720,8 @@
         transition: all 0.15s ease;
       }
       .sections-close:hover {
-        border-color: #c4471f;
-        color: #c4471f;
+        border-color: #c2410c;
+        color: #c2410c;
       }
       .sections-list {
         list-style: none;
@@ -12729,7 +12729,7 @@
         margin: 0;
       }
       .sections-list li {
-        border-bottom: 1px solid #f0ebdd;
+        border-bottom: 1px solid #efede6;
         position: relative;
       }
       .sections-list li:last-child {
@@ -12741,7 +12741,7 @@
         align-items: center;
         padding: 14px 4px;
         text-decoration: none;
-        color: #1a1a1a;
+        color: #0a0a0a;
         transition: all 0.15s ease;
         background: transparent;
         border: none;
@@ -12752,7 +12752,7 @@
       }
       .sections-list button:hover,
       .sections-list a:hover {
-        background: #faf7f0;
+        background: #fafaf7;
         padding-left: 12px;
         padding-right: 12px;
       }
@@ -12760,27 +12760,27 @@
         font-family: "Fraunces", serif;
         font-size: 18px;
         font-weight: 500;
-        color: #1a1a1a;
+        color: #0a0a0a;
         line-height: 1.25;
         flex-grow: 1;
       }
       .sections-list .s-meta {
         font-family: "JetBrains Mono", monospace;
         font-size: 11px;
-        color: #c4471f;
+        color: #c2410c;
         letter-spacing: 0.08em;
         text-transform: uppercase;
         flex-shrink: 0;
         margin-left: 16px;
       }
       .sections-list li.current .s-title {
-        color: #c4471f;
+        color: #c2410c;
       }
       .sections-list li.current::before {
         content: "";
         display: block;
         width: 3px;
-        background: #c4471f;
+        background: #c2410c;
         position: absolute;
         left: -8px;
         top: 12px;
@@ -12789,10 +12789,10 @@
       .sections-hint {
         margin-top: 20px;
         padding-top: 16px;
-        border-top: 1px solid #e8e2d5;
+        border-top: 1px solid #e7e5de;
         font-family: "JetBrains Mono", monospace;
         font-size: 11px;
-        color: #7c7872;
+        color: #6b6b66;
         text-align: center;
         letter-spacing: 0.05em;
       }
@@ -13348,7 +13348,7 @@
       .help-overlay {
         position: fixed;
         inset: 0;
-        background: rgba(26, 26, 26, 0.85);
+        background: rgba(10, 10, 10, 0.85);
         display: none;
         align-items: center;
         justify-content: center;
@@ -13490,18 +13490,18 @@
         <path
           id="bass-curve-path"
           d=""
-          stroke="#E8E2D5"
+          stroke="#E7E5DE"
           stroke-width="1.5"
           fill="none"
         />
         <path
           id="bass-curve-active"
           d=""
-          stroke="#C4471F"
+          stroke="#C2410C"
           stroke-width="2"
           fill="none"
         />
-        <circle id="bass-curve-dot" r="3" fill="#C4471F" />
+        <circle id="bass-curve-dot" r="3" fill="#C2410C" />
       </svg>
       <div class="topbar-right">
         <button
@@ -14547,14 +14547,14 @@
       // ============================================================
       Chart.defaults.font.family = "'Inter', sans-serif";
       Chart.defaults.font.size = 13;
-      Chart.defaults.color = "#4A4A4A";
-      Chart.defaults.borderColor = "#E8E2D5";
+      Chart.defaults.color = "#3A3A3A";
+      Chart.defaults.borderColor = "#E7E5DE";
 
-      const COL_RUST = "#C4471F";
-      const COL_RUST_LIGHT = "rgba(196,71,31,0.08)";
-      const COL_NAVY = "#1E3A52";
-      const COL_NAVY_LIGHT = "rgba(30,58,82,0.08)";
-      const COL_INK_MUTE = "#7C7872";
+      const COL_RUST = "#C2410C";
+      const COL_RUST_LIGHT = "rgba(194,65,12,0.08)";
+      const COL_NAVY = "#1E3A8A";
+      const COL_NAVY_LIGHT = "rgba(30,58,138,0.08)";
+      const COL_INK_MUTE = "#6B6B66";
 
       // ============================================================
       // CHART 1: Trends mini (slide 6)
@@ -14770,8 +14770,8 @@
             {
               label: "Datos test (reales)",
               data: testYears.map((y, i) => ({ x: y, y: testReal[i] })),
-              borderColor: "#1D7A52",
-              backgroundColor: "#1D7A52",
+              borderColor: "#15803D",
+              backgroundColor: "#15803D",
               borderWidth: 0,
               pointRadius: 8,
               pointStyle: "rectRot",
@@ -14780,8 +14780,8 @@
             {
               label: "Predicción (RMSE = 1.32 pp)",
               data: testYears.map((y, i) => ({ x: y, y: testPred[i] })),
-              borderColor: "#1D7A52",
-              backgroundColor: "#1D7A52",
+              borderColor: "#15803D",
+              backgroundColor: "#15803D",
               borderDash: [5, 3],
               borderWidth: 2,
               pointRadius: 4,
@@ -14981,8 +14981,8 @@
             {
               label: "Cruce: 2028",
               data: [{ x: 2028.2, y: 17.8 }],
-              borderColor: "#1D7A52",
-              backgroundColor: "#1D7A52",
+              borderColor: "#15803D",
+              backgroundColor: "#15803D",
               borderWidth: 0,
               pointRadius: 12,
               pointStyle: "star",
