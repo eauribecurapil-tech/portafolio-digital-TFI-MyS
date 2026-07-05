@@ -12520,6 +12520,113 @@
       .tk-rust { color: var(--rust); font-weight: 500; }
       .tk-cpp  { color: var(--navy); font-weight: 500; }
 
+      /* Tabular numbers */
+      .mono,
+      .pvalue,
+      .metric-value,
+      .crossover-year,
+      .finding-pq,
+      .sim-control-value,
+      .tabnum {
+        font-feature-settings: "tnum" 1, "lnum" 1;
+        font-variant-numeric: tabular-nums lining-nums;
+      }
+
+      /* Universal focus ring */
+      :focus-visible {
+        outline: 2px solid var(--rust);
+        outline-offset: 3px;
+        border-radius: 2px;
+      }
+
+      /* Kbd chips */
+      kbd {
+        font-family: "JetBrains Mono", "Consolas", monospace;
+        font-size: 0.85em;
+        background: var(--cream);
+        color: var(--ink-2);
+        border: 1px solid var(--rule);
+        border-bottom-width: 2px;
+        border-radius: 4px;
+        padding: 1px 6px;
+        line-height: 1;
+        white-space: nowrap;
+      }
+
+      /* Parameter role chip */
+      .param-role {
+        display: inline-block;
+        padding: 3px 10px;
+        background: var(--accent-bg);
+        color: var(--rust);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 10px;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        border-radius: 3px;
+        margin-bottom: 12px;
+      }
+
+      /* Ecuación highlight */
+      .eq-p { color: var(--navy); font-style: normal; font-weight: 500; }
+      .eq-q { color: var(--rust); font-style: normal; font-weight: 500; }
+      .eq-m { color: var(--ink); font-style: normal; font-weight: 600; }
+
+      /* Figure source */
+      .figure-source {
+        display: block;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 11px;
+        color: var(--ink-3);
+        letter-spacing: 0.04em;
+        margin-top: 6px;
+      }
+      .figure-source::before { content: "Fuente · "; color: var(--ink-3); opacity: 0.7; }
+
+      /* Micro-animation: 2028 reveal */
+      .slide.active .crossover-year {
+        animation: crossoverIn 0.7s cubic-bezier(0.2, 0.9, 0.3, 1) 0.15s both;
+        display: inline-block;
+        position: relative;
+      }
+      .slide.active .crossover-year::after {
+        content: "";
+        position: absolute;
+        left: 12%;
+        right: 12%;
+        bottom: 6%;
+        height: 4px;
+        background: var(--rust);
+        transform: scaleX(0);
+        transform-origin: center;
+        animation: underlineIn 0.55s ease-out 0.85s both;
+        border-radius: 2px;
+      }
+      @keyframes crossoverIn {
+        from { opacity: 0; transform: translateY(24px); letter-spacing: 0; }
+        to   { opacity: 1; transform: translateY(0);    letter-spacing: -0.05em; }
+      }
+      @keyframes underlineIn {
+        to { transform: scaleX(1); }
+      }
+
+      /* Stage cards: progression watermark */
+      .stage { overflow: hidden; }
+      .stage::after {
+        content: attr(data-n);
+        position: absolute;
+        top: -18px;
+        right: -6px;
+        font-family: "Fraunces", serif;
+        font-size: 72px;
+        color: var(--rust);
+        opacity: 0.08;
+        font-weight: 700;
+        line-height: 1;
+        pointer-events: none;
+      }
+
       /* ============= TYPOGRAPHY ============= */
       .display {
         font-family: "Fraunces", Georgia, serif;
@@ -12953,10 +13060,10 @@
         margin: 24px 0;
       }
       ul.clean li {
-        padding: 16px 0;
+        padding: 22px 0;
         border-bottom: 1px solid var(--rule);
         font-size: 21px;
-        line-height: 1.5;
+        line-height: 1.55;
       }
       ul.clean li:last-child {
         border-bottom: none;
@@ -12974,16 +13081,17 @@
       }
       ul.numbered li {
         counter-increment: num;
-        padding: 20px 0 20px 60px;
+        padding: 26px 0 26px 64px;
         border-bottom: 1px solid var(--rule);
         position: relative;
         font-size: 21px;
+        line-height: 1.5;
       }
       ul.numbered li::before {
         content: counter(num, decimal-leading-zero);
         position: absolute;
         left: 0;
-        top: 22px;
+        top: 28px;
         font-family: "JetBrains Mono", monospace;
         font-size: 15px;
         color: var(--rust);
@@ -13027,8 +13135,9 @@
       .equation-hero {
         text-align: center;
         padding: 48px 32px;
-        background: var(--paper);
+        background: linear-gradient(180deg, var(--paper) 0%, var(--accent-bg) 100%);
         border: 1px solid var(--rule);
+        border-left: 3px solid var(--rust);
         margin: 32px 0;
       }
       .equation-hero .eq {
@@ -13458,18 +13567,32 @@
         }
       }
 
-      /* Print fallback */
+      /* Print fallback — handout mode */
       @media print {
+        @page { size: landscape; margin: 12mm; }
+        html, body { height: auto; overflow: visible; background: white; }
+        .deck { position: static; }
         .slide {
           position: relative;
-          opacity: 1;
+          inset: auto;
+          opacity: 1 !important;
+          pointer-events: auto !important;
           page-break-after: always;
+          break-after: page;
+          padding: 20mm 24mm;
+          min-height: auto;
+          display: block;
         }
+        .slide-inner { max-width: none; }
         .topbar,
         .controls,
+        .sections-overlay,
         .help-overlay {
-          display: none;
+          display: none !important;
         }
+        .tk-rust, .tk-cpp { color: black !important; font-weight: 600; }
+        h1, h2, h3, h4 { page-break-after: avoid; }
+        canvas, img, figure { page-break-inside: avoid; max-width: 100%; }
       }
     </style>
   </head>
@@ -13791,35 +13914,35 @@
             es decorativo.
           </p>
           <div class="stages">
-            <div class="stage">
+            <div class="stage" data-n="1">
               <div class="stage-num">Etapa 01</div>
               <div class="stage-title">Problema</div>
               <div class="stage-desc">
                 Definir el fenómeno y la pregunta de investigación.
               </div>
             </div>
-            <div class="stage">
+            <div class="stage" data-n="2">
               <div class="stage-num">Etapa 02</div>
               <div class="stage-title">Datos</div>
               <div class="stage-desc">
                 Recolectar series temporales de cuatro fuentes públicas.
               </div>
             </div>
-            <div class="stage">
+            <div class="stage" data-n="3">
               <div class="stage-num">Etapa 03</div>
               <div class="stage-title">Limpieza</div>
               <div class="stage-desc">
                 Unificar, validar y detectar puntos críticos.
               </div>
             </div>
-            <div class="stage">
+            <div class="stage" data-n="4">
               <div class="stage-num">Etapa 04</div>
               <div class="stage-title">Modelo</div>
               <div class="stage-desc">
                 Bass / SIR, ajustar, validar, simular escenarios.
               </div>
             </div>
-            <div class="stage">
+            <div class="stage" data-n="5">
               <div class="stage-num">Etapa 05</div>
               <div class="stage-title">Documentar</div>
               <div class="stage-desc">
@@ -13922,7 +14045,7 @@
             de innovaciones tecnológicas.
           </p>
           <div class="equation-hero">
-            <div class="eq">dN/dt = (p + q · N/m) · (m − N)</div>
+            <div class="eq">dN/dt = (<span class="eq-p">p</span> + <span class="eq-q">q</span> · N/<span class="eq-m">m</span>) · (<span class="eq-m">m</span> − N)</div>
             <div class="eq-where">
               donde N(t) es la fracción acumulada de adoptantes
             </div>
@@ -13945,6 +14068,7 @@
           <div class="param-grid">
             <div class="param-card">
               <div class="pname">p</div>
+              <div class="param-role">Influencia externa</div>
               <div class="plabel">Coeficiente</div>
               <div class="pname-text">Innovación</div>
               <div class="pdesc">
@@ -13956,6 +14080,7 @@
             </div>
             <div class="param-card">
               <div class="pname">q</div>
+              <div class="param-role">Influencia interna</div>
               <div class="plabel">Coeficiente</div>
               <div class="pname-text">Imitación</div>
               <div class="pdesc">
@@ -13966,6 +14091,7 @@
             </div>
             <div class="param-card">
               <div class="pname">m</div>
+              <div class="param-role">Techo asintótico</div>
               <div class="plabel">Parámetro</div>
               <div class="pname-text">Mercado potencial</div>
               <div class="pdesc">
@@ -14355,7 +14481,7 @@
 
     <div class="controls">
       <button class="ctrl-btn" id="prev-btn" aria-label="Anterior">←</button>
-      <span class="ctrl-hint">← / → · Espacio · M secciones · ? ayuda</span>
+      <span class="ctrl-hint"><kbd>←</kbd> / <kbd>→</kbd> · <kbd>Espacio</kbd> · <kbd>M</kbd> secciones · <kbd>?</kbd> ayuda</span>
       <button class="ctrl-btn" id="next-btn" aria-label="Siguiente">→</button>
     </div>
 
@@ -14363,27 +14489,27 @@
       <div class="help-card">
         <h3>Navegación</h3>
         <div class="help-row">
-          <span>Siguiente slide</span><span class="help-key">→ / Espacio</span>
+          <span>Siguiente slide</span><kbd class="help-key">→ / Espacio</kbd>
         </div>
         <div class="help-row">
           <span>Anterior slide</span
-          ><span class="help-key">← / Shift+Espacio</span>
+          ><kbd class="help-key">← / Shift+Espacio</kbd>
         </div>
         <div class="help-row">
-          <span>Primera slide</span><span class="help-key">Inicio</span>
+          <span>Primera slide</span><kbd class="help-key">Inicio</kbd>
         </div>
         <div class="help-row">
-          <span>Última slide</span><span class="help-key">Fin</span>
+          <span>Última slide</span><kbd class="help-key">Fin</kbd>
         </div>
         <div class="help-row">
-          <span>Abrir menú de secciones</span><span class="help-key">M</span>
+          <span>Abrir menú de secciones</span><kbd class="help-key">M</kbd>
         </div>
         <div class="help-row">
           <span>Mostrar / ocultar esta ayuda</span
-          ><span class="help-key">?</span>
+          ><kbd class="help-key">?</kbd>
         </div>
         <div class="help-row">
-          <span>Cerrar</span><span class="help-key">Esc</span>
+          <span>Cerrar</span><kbd class="help-key">Esc</kbd>
         </div>
       </div>
     </div>

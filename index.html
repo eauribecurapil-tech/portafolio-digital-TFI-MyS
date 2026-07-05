@@ -744,6 +744,7 @@
         <div class="params-grid">
           <div class="param">
             <div class="param-name">p</div>
+            <div class="param-role">Influencia externa</div>
             <div class="param-label">Coeficiente</div>
             <div class="param-title">Innovación</div>
             <div class="param-desc">
@@ -754,6 +755,7 @@
           </div>
           <div class="param">
             <div class="param-name">q</div>
+            <div class="param-role">Influencia interna</div>
             <div class="param-label">Coeficiente</div>
             <div class="param-title">Imitación</div>
             <div class="param-desc">
@@ -764,6 +766,7 @@
           </div>
           <div class="param">
             <div class="param-name">m</div>
+            <div class="param-role">Techo asintótico</div>
             <div class="param-label">Parámetro</div>
             <div class="param-title">Mercado potencial</div>
             <div class="param-desc">
@@ -800,6 +803,7 @@
                 Overflow Survey (2016-2025). R² = 0.95, RMSE = 1.03 pp sobre un
                 rango de variación de 12.5 pp, lo que representa un error
                 relativo cercano al 8%.
+                <span class="figure-source">Stack Overflow Developer Survey 2016–2025 · ajuste propio con scipy</span>
               </figcaption>
             </figure>
             <figure class="figure-block">
@@ -811,6 +815,7 @@
                 Figura 2. Validación temporal. El modelo entrenado únicamente
                 con datos 2016–2022 predice los tres años siguientes con error
                 de 1.32 pp.
+                <span class="figure-source">Stack Overflow Developer Survey · train 2016–2022 / test 2023–2025</span>
               </figcaption>
             </figure>
           </div>
@@ -874,6 +879,7 @@
             Figura 3. Análisis de sensibilidad. La trayectoria de adopción es
             notablemente más sensible al coeficiente de imitación q que al de
             innovación p.
+            <span class="figure-source">Simulación propia sobre modelo Bass · datos base Stack Overflow Survey</span>
           </figcaption>
         </figure>
       </div>
@@ -909,6 +915,7 @@
           <figcaption class="figure-caption">
             Figura 4. Proyección de <span class="tk-rust">Rust</span> y <span class="tk-cpp">C++</span> hasta 2030. La marca verde indica
             el punto de cruce calculado por el modelo.
+            <span class="figure-source">Proyección Bass (Rust) + decaimiento exponencial (C++) · base Stack Overflow Survey</span>
           </figcaption>
         </figure>
       </div>

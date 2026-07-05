@@ -76,6 +76,64 @@ body {
 .tk-rust { color: var(--rust); font-weight: 500; }
 .tk-cpp  { color: var(--navy); font-weight: 500; }
 
+/* Tabular numbers: keep digits from shifting width between slides/values */
+.mono,
+.metric-value,
+.param-value,
+.answer-year,
+.finding-pq,
+.tabnum {
+  font-feature-settings: "tnum" 1, "lnum" 1;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* Universal focus ring — critical for keyboard navigation during a live defense */
+:focus-visible {
+  outline: 2px solid var(--rust);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Kbd chips */
+kbd {
+  font-family: 'JetBrains Mono', 'Consolas', monospace;
+  font-size: 0.85em;
+  background: var(--cream);
+  color: var(--ink-2);
+  border: 1px solid var(--rule);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  padding: 1px 6px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Parameter role chip (innovador/imitador/potencial) */
+.param-role {
+  display: inline-block;
+  padding: 3px 10px;
+  background: var(--rust-soft);
+  color: var(--rust);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  border-radius: 3px;
+  margin-bottom: 12px;
+}
+
+/* Figure source line — academic rigor */
+.figure-source {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-3);
+  letter-spacing: 0.04em;
+  margin-top: 6px;
+}
+.figure-source::before { content: "Fuente · "; color: var(--ink-4); }
+
 a { color: var(--rust); text-decoration: none; transition: color .15s ease; }
 a:hover { color: var(--rust-deep); text-decoration: underline; }
 a:focus-visible { outline: 2px solid var(--rust); outline-offset: 3px; border-radius: 2px; }
@@ -431,6 +489,20 @@ a:focus-visible { outline: 2px solid var(--rust); outline-offset: 3px; border-ra
 /* ============= PRINT ============= */
 @media print {
   .navbar, .site-footer, .nav-toggle { display: none; }
-  .section { padding: 20px 0; }
-  body { background: white; }
+  .section {
+    padding: 20px 0;
+    page-break-inside: avoid;
+    border-bottom: 1px solid var(--rule);
+  }
+  body {
+    background: white;
+    color: black;
+    font-size: 11pt;
+  }
+  a { color: black; text-decoration: underline; }
+  .tk-rust { color: black; font-weight: 600; }
+  .tk-cpp  { color: black; font-weight: 600; font-style: italic; }
+  h1, h2, h3, h4 { page-break-after: avoid; }
+  figure, .card { page-break-inside: avoid; }
+  img { max-width: 100% !important; }
 }
