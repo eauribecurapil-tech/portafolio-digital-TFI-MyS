@@ -12516,6 +12516,10 @@
         text-rendering: optimizeLegibility;
       }
 
+      /* ============= LANG TOKENS ============= */
+      .tk-rust { color: var(--rust); font-weight: 500; }
+      .tk-cpp  { color: var(--navy); font-weight: 500; }
+
       /* ============= TYPOGRAPHY ============= */
       .display {
         font-family: "Fraunces", Georgia, serif;
@@ -13571,7 +13575,7 @@
           </li>
           <li>
             <a href="#" data-slide="2"
-              ><span class="s-title">El problema · Rust vs C++</span
+              ><span class="s-title">El problema · <span class="tk-rust">Rust</span> vs <span class="tk-cpp">C++</span></span
               ><span class="s-meta">Slide 03</span></a
             >
           </li>
@@ -13643,7 +13647,7 @@
           </li>
           <li>
             <a href="#" data-slide="14"
-              ><span class="s-title">Rust vs C++ proyectados</span
+              ><span class="s-title"><span class="tk-rust">Rust</span> vs <span class="tk-cpp">C++</span> proyectados</span
               ><span class="s-meta">Slide 15</span></a
             >
           </li>
@@ -13682,7 +13686,7 @@
                 Modelos y Simulación · 2026
               </div>
               <h1 class="display display-bold title">
-                Adopción de Rust como reemplazo de C++
+                Adopción de <span class="tk-rust">Rust</span> como reemplazo de <span class="tk-cpp">C++</span>
               </h1>
               <p class="lead" style="margin-top: 8px">
                 Un análisis de difusión tecnológica con modelo Bass / SIR
@@ -13720,13 +13724,13 @@
         <div class="slide-inner">
           <div class="eyebrow">Pregunta de investigación</div>
           <blockquote class="question">
-            ¿Cómo evoluciona la adopción de Rust como reemplazo de C++ en
+            ¿Cómo evoluciona la adopción de <span class="tk-rust">Rust</span> como reemplazo de <span class="tk-cpp">C++</span> en
             programación de sistemas, y qué factores aceleran o frenan ese
             proceso?
           </blockquote>
           <p class="body-lg" style="margin-top: 24px">
             Una pregunta que en 2026 ya no es teórica: el kernel de Linux acepta
-            Rust, el Gobierno de los Estados Unidos lo recomienda
+            <span class="tk-rust">Rust</span>, el Gobierno de los Estados Unidos lo recomienda
             explícitamente, y la
             <span class="mono" style="color: var(--rust)"
               >Cyber Resilience Act</span
@@ -13745,7 +13749,7 @@
           </h2>
           <div class="two-col" style="margin-top: 16px">
             <div class="col">
-              <h4>C++ (1985)</h4>
+              <h4><span class="tk-cpp">C++</span> (1985)</h4>
               <p>
                 Estándar de facto en sistemas críticos durante 40 años.
                 Performance excepcional, control total de memoria, pero
@@ -13755,10 +13759,10 @@
               </p>
             </div>
             <div class="col">
-              <h4>Rust (2015)</h4>
+              <h4><span class="tk-rust">Rust</span> (2015)</h4>
               <p>
                 Memoria segura por diseño: el compilador previene los errores
-                comunes de C++ sin perder performance.
+                comunes de <span class="tk-cpp">C++</span> sin perder performance.
                 <strong
                   >Adoptado por Linux, Android, Microsoft, Cloudflare,
                   AWS.</strong
@@ -13768,7 +13772,7 @@
             </div>
           </div>
           <p class="body-lg" style="margin-top: 32px; max-width: 70ch">
-            La pregunta no es si Rust va a reemplazar a C++. Es <em>cuándo</em>,
+            La pregunta no es si <span class="tk-rust">Rust</span> va a reemplazar a <span class="tk-cpp">C++</span>. Es <em>cuándo</em>,
             <em>qué tan rápido</em>, y <em>qué condiciones</em> hacen que la
             transición se acelere.
           </p>
@@ -13843,7 +13847,7 @@
               <div class="src-tag">Primaria · Anual · Alimenta al modelo</div>
               <h4>Stack Overflow Developer Survey</h4>
               <p>
-                10 años de % de desarrolladores que usaron Rust y C++
+                10 años de % de desarrolladores que usaron <span class="tk-rust">Rust</span> y <span class="tk-cpp">C++</span>
                 (2016–2025). Muestra: 49.000–100.000 respondentes profesionales
                 por año.
                 <strong>Única fuente que ingresa al ajuste del Bass</strong>,
@@ -13854,7 +13858,7 @@
               <div class="src-tag">Validación · Mensual</div>
               <h4>TIOBE Programming Index</h4>
               <p>
-                Posición histórica de Rust (de #38 en 2018 a #12 en 2026).
+                Posición histórica de <span class="tk-rust">Rust</span> (de #38 en 2018 a #12 en 2026).
                 Confirma la dirección del crecimiento independientemente del
                 survey de SO.
               </p>
@@ -13887,8 +13891,8 @@
             Una S clara, casi de manual.
           </h2>
           <p class="lead" style="max-width: 60ch">
-            La forma del crecimiento de Rust es la curva en S característica de
-            la difusión de innovaciones. C++ declina con estacionalidad anual
+            La forma del crecimiento de <span class="tk-rust">Rust</span> es la curva en S característica de
+            la difusión de innovaciones. <span class="tk-cpp">C++</span> declina con estacionalidad anual
             (picos académicos en marzo).
           </p>
           <div
@@ -13966,7 +13970,7 @@
               <div class="pname-text">Mercado potencial</div>
               <div class="pdesc">
                 Techo asintótico de adopción. No todos los devs van a adoptar
-                Rust aunque crezca indefinidamente.
+                <span class="tk-rust">Rust</span> aunque crezca indefinidamente.
               </div>
               <div class="pvalue">19.6%</div>
             </div>
@@ -14148,7 +14152,7 @@
               >
             </li>
             <li>
-              <strong>Conservador</strong> · m al 70% (Rust no desplaza nichos
+              <strong>Conservador</strong> · m al 70% (<span class="tk-rust">Rust</span> no desplaza nichos
               embebidos).
               <span class="mono" style="color: var(--rust); float: right"
                 >→ 13.0% en 2030</span
@@ -14156,7 +14160,7 @@
             </li>
             <li>
               <strong>SIR con abandono</strong> · α = 0.05 anual (vuelven a
-              C++).
+              <span class="tk-cpp">C++</span>).
               <span class="mono" style="color: var(--rust); float: right"
                 >→ 15.0% en 2030</span
               >
@@ -14184,7 +14188,7 @@
               <span class="pq-q">q</span>
             </div>
             <p class="body-lg" style="max-width: 65ch">
-              Lectura ingenieril: para acelerar la adopción de Rust, invertir en
+              Lectura ingenieril: para acelerar la adopción de <span class="tk-rust">Rust</span>, invertir en
               <strong>comunidades de desarrolladores</strong> y
               <strong>casos de éxito visibles</strong> tiene más impacto que
               campañas regulatorias o anuncios corporativos aislados.
@@ -14197,10 +14201,10 @@
       <section class="slide">
         <div class="slide-inner">
           <div class="crossover-hero">
-            <div class="crossover-label">Punto de cruce Rust &gt; C++</div>
+            <div class="crossover-label">Punto de cruce <span class="tk-rust">Rust</span> &gt; <span class="tk-cpp">C++</span></div>
             <div class="crossover-year">2028</div>
             <p class="crossover-explain">
-              El año en que, según el modelo Bass ajustado, Rust supera a C++ en
+              El año en que, según el modelo Bass ajustado, <span class="tk-rust">Rust</span> supera a <span class="tk-cpp">C++</span> en
               porcentaje de desarrolladores que lo usan.
               <span style="color: var(--rust)"
                 >Una predicción cuantitativa, falsable, verificable.</span
@@ -14217,7 +14221,7 @@
             Etapa 04 · Respuesta a la pregunta de investigación
           </div>
           <h2 class="display display-bold section-title">
-            Rust vs C++ proyectados.
+            <span class="tk-rust">Rust</span> vs <span class="tk-cpp">C++</span> proyectados.
           </h2>
           <div
             style="
@@ -14252,8 +14256,8 @@
               tiempo, pero la población de devs sí crece.
             </li>
             <li>
-              <strong>Sin competencia.</strong> Rust compite también con Zig y
-              Go, no solo con C++.
+              <strong>Sin competencia.</strong> <span class="tk-rust">Rust</span> compite también con Zig y
+              Go, no solo con <span class="tk-cpp">C++</span>.
             </li>
             <li>
               <strong>No-monotonicidad.</strong> La caída de 13.05% en 2023 a
@@ -14285,7 +14289,7 @@
               predice.
             </li>
             <li>
-              <strong>Rust supera a C++ en 2028.</strong> Resultado cuantitativo
+              <strong><span class="tk-rust">Rust</span> supera a <span class="tk-cpp">C++</span> en 2028.</strong> Resultado cuantitativo
               concreto, verificable en pocos años. Hipótesis falsable.
             </li>
             <li>

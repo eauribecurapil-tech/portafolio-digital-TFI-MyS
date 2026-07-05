@@ -73,6 +73,9 @@ body {
   display: inline-block;
 }
 
+.tk-rust { color: var(--rust); font-weight: 500; }
+.tk-cpp  { color: var(--navy); font-weight: 500; }
+
 a { color: var(--rust); text-decoration: none; transition: color .15s ease; }
 a:hover { color: var(--rust-deep); text-decoration: underline; }
 a:focus-visible { outline: 2px solid var(--rust); outline-offset: 3px; border-radius: 2px; }
